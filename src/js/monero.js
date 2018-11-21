@@ -2543,22 +2543,22 @@ return{_strlen:lb,_ge_mul8:Va,_keccak:db,_ge_scalarmult:Ta,_ge_fromfe_frombytes_
 
 
 var moneroConfig = {
-    coinUnitPlaces: 12,
-    txMinConfirms: 10,
-    coinSymbol: 'XMR',
-    openAliasPrefix: "xmr",
-    coinName: 'Monero',
-    coinUriPrefix: 'monero:',
-    addressPrefix: 18,
-    integratedAddressPrefix: 19,
-    feePerKB: new JSBigInt('2000000000'),
-    dustThreshold: new JSBigInt('10000000000'),
+    coinUnitPlaces: 9,
+    txMinConfirms: 4,
+    coinSymbol: 'ARQ',
+    openAliasPrefix: "arq",
+    coinName: 'Arqma',
+    coinUriPrefix: 'arqma:',
+    addressPrefix: 0x2cca,
+    integratedAddressPrefix: 0x116bc7,
+    feePerKB: new JSBigInt('2000000'),
+    dustThreshold: new JSBigInt('1000000'),
     txChargeRatio: 0.5,
-    defaultMixin: 10,
+    defaultMixin: 6,
     idleTimeout: 10,
     idleWarningDuration: 20,
     maxBlockNumber: 500000000,
-    avgBlockTime: 60,
+    avgBlockTime: 240,
     debugMode: false
 };
 
@@ -2579,7 +2579,8 @@ var cnUtilGen = function(initConfig) {
     var OLD_TX_VERSION = 1;
     var RCTTypeFull = 1;
     var RCTTypeSimple = 2;
-    var RCTTypeBulletproof = 3;
+    var RCTTypeFullBulletproof = 3;
+    var RCTTypeSimpleBulletproof = 4;
     var TX_EXTRA_NONCE_MAX_COUNT = 255;
     var TX_EXTRA_TAGS = {
         PADDING: '00',
@@ -3088,8 +3089,6 @@ var cnUtilGen = function(initConfig) {
     //yay bulletproofs
     //begin bulletproof vars
     var maxN = 64;
-    var BULLETPROOF_MAX_OUTPUTS = 16;
-    var maxM = BULLETPROOF_MAX_OUTPUTS;
     var TWO = d2s("2");
     var INV_EIGHT = "792fdce229e50661d0da1c7db39dd30700000000000000000000000000000006";
     var Hi = [], Gi = []; //consider precomputing -- takes approximately 500ms to generate
@@ -3629,7 +3628,7 @@ var cnUtilGen = function(initConfig) {
     this.vector_exponent_raw = function(a, b) {
         var teststart = new Date().getTime();
         if (a.length !== b.length){throw "Incompatible sizes of a and b";}
-        if (a.length > maxN*maxM){throw "Incompatible sizes of a and maxN";}
+        if (a.length > maxN){throw "Incompatible sizes of a and maxN";}
         var res = I;
         for (var i = 0; i < a.length - 1; i++) {
             res = this.ge_add_raw(this.ge_double_scalarmult_postcomp_vartime_2_raw_output(a[i], Gi[i], b[i], Hi[i]), res);
@@ -3645,7 +3644,7 @@ var cnUtilGen = function(initConfig) {
     this.vector_exponent_pip = function(a, b) {
         var teststart = new Date().getTime();
         if (a.length !== b.length){throw "Incompatible sizes of a and b";}
-        if (a.length > maxN*maxM){throw "Incompatible sizes of a and maxN";}
+        if (a.length > maxN){throw "Incompatible sizes of a and maxN";}
         var data = [];
         for (var i = 0; i < a.length; i++) {
             data.push({
@@ -3670,7 +3669,7 @@ var cnUtilGen = function(initConfig) {
         if (A.length !== B.length){throw "Incompatible sizes of A and B";}
         if (a.length !== b.length){throw "Incompatible sizes of a and b";}
         if (a.length !== A.length){throw "Incompatible sizes of a and A";}
-        if (a.length > maxN*maxM){throw "Incompatible sizes of a and maxN";}
+        if (a.length > maxN){throw "Incompatible sizes of a and maxN";}
         var res = I;
         if (a.length < 32) {
             for (var i = 0; i < a.length; i++) {
@@ -3954,11 +3953,11 @@ var cnUtilGen = function(initConfig) {
         var logN = 6;
         var N = 64;
         var M, logM;
-        for (logM = 0; (M = 1<<logM) <= maxM && M < sv.length; logM++) {
-            if (M > maxM) {
-                throw "sv/gamma are too large";
-            }
-        }
+        //for (logM = 0; (M = 1<<logM) <= maxM && M < sv.length; logM++) {
+        //    if (M > maxM) {
+        //        throw "sv/gamma are too large";
+        //    }
+        //}
         var logMN = logM + logN;
         var MN = M * N;
         var V = [], aL = [], aR = [];
