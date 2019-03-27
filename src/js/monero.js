@@ -2454,22 +2454,22 @@ return{_strlen:lb,_ge_mul8:Va,_keccak:db,_ge_scalarmult:Ta,_ge_fromfe_frombytes_
 
 
 var moneroConfig = {
-    coinUnitPlaces: 12,
-    txMinConfirms: 10,
-    coinSymbol: 'XMR',
-    openAliasPrefix: "xmr",
-    coinName: 'Monero',
-    coinUriPrefix: 'monero:',
-    addressPrefix: 18,
-    integratedAddressPrefix: 19,
-    feePerKB: new JSBigInt('2000000000'),
-    dustThreshold: new JSBigInt('10000000000'),
+    coinUnitPlaces: 9,
+    txMinConfirms: 4,
+    coinSymbol: 'ARQ',
+    openAliasPrefix: "arq",
+    coinName: 'Arqma',
+    coinUriPrefix: 'arqma:',
+    addressPrefix: 11466,
+    integratedAddressPrefix: 1141703,
+    feePerKB: new JSBigInt('20000'),
+    dustThreshold: new JSBigInt('10000'),
     txChargeRatio: 0.5,
     defaultMixin: 6,
     idleTimeout: 10,
     idleWarningDuration: 20,
     maxBlockNumber: 500000000,
-    avgBlockTime: 60,
+    avgBlockTime: 120,
     debugMode: false
 };
 
@@ -2490,6 +2490,8 @@ var cnUtilGen = function(initConfig) {
     var OLD_TX_VERSION = 1;
     var RCTTypeFull = 1;
     var RCTTypeSimple = 2;
+    var RCTTypeFullBulletproof = 3;
+    var RCTTypeSimpleBulletproof = 4;
     var TX_EXTRA_NONCE_MAX_COUNT = 255;
     var TX_EXTRA_TAGS = {
         PADDING: '00',

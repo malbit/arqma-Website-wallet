@@ -468,7 +468,7 @@
                        
                            if(output_data)
                            {
-                                var dust_threshold = new JSBigInt('10000000000');
+                                var dust_threshold = new JSBigInt('10000');
                                 
                                 var destinations = [];
                                 destinations.push({});
@@ -491,7 +491,7 @@
                                 var fee_per_kb = JSBigInt(output_data[0]);
                                 var rct = true;
                                 
-                                var required_fee = rct ? fee_per_kb.multiply(13) : fee_per_kb;
+                                var required_fee = rct ? fee_per_kb.multiply(4) : fee_per_kb;
                                 
                                 if(sending_max == 1)
                                 {
